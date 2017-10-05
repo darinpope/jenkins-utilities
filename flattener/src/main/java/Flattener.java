@@ -67,7 +67,7 @@ public class Flattener {
                         if(postsplitList.size() >= 4) {
                             //need to flatten
 //                            System.out.println("####  size = " + postsplitList.size() + "; 0 = " + postsplitList.get(0));
-                            specificTargetDirectory = targetDirectory + "/" + postsplitList.get(0);
+                            specificTargetDirectory = targetDirectory + "/jobs/" + postsplitList.get(0);
                         }
 //                        Files.copy(file.toPath(),(new File(specificTargetDirectory + file.getName())).toPath());
                         System.out.println("*********");
