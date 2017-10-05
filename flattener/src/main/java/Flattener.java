@@ -53,7 +53,6 @@ public class Flattener {
                     String jobName = actualParts.get(actualParts.size()-2);
 //                    System.out.println("jobName: " + jobName);
                     String[] fileSplit = file.getAbsolutePath().split(topLevelDirectory+"/jobs/");
-                    List<String> postsplitList = new ArrayList<>(Arrays.asList(fileSplit[1].split("/")));
                     if("com.cloudbees.hudson.plugins.folder.Folder".equalsIgnoreCase(doc.getDocumentElement().getNodeName())) {
                         // always create the folder in orphans
                         String orphanFile = orphansDirectory + "/jobs/" + fileSplit[1];
@@ -80,6 +79,7 @@ public class Flattener {
                         }
                     } else {
 //                        System.out.println("postsplit: " + fileSplit[1]);
+                        List<String> postsplitList = new ArrayList<>(Arrays.asList(fileSplit[1].split("/")));
                         String specificTargetDirectory = targetDirectory + "";
                         if(postsplitList.size() >= 4) {
                             //need to flatten
