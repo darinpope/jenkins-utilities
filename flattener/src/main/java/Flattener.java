@@ -99,6 +99,7 @@ public class Flattener {
                             System.out.println("from: " + file.getAbsolutePath());
                             System.out.println("fail: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                             System.out.println("*********");
+                            Files.copy(file.toPath(), (new File(specificTargetDirectory + "/jobs/" + jobName + "/" + file.getName())).toPath());
                         }
                     }
                 }
