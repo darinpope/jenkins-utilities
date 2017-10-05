@@ -16,6 +16,7 @@ public class Flattener {
         String topLevelDirectory = args[argIndex++];
         String targetDirectory = args[argIndex++];
         String orphansDirectory = args[argIndex++];
+        String jobType = args[argIndex++];
         if(topLevelDirectory.endsWith("/")) {
             topLevelDirectory = topLevelDirectory.substring(0,topLevelDirectory.length()-1);
         }
@@ -25,37 +26,42 @@ public class Flattener {
         if(orphansDirectory.endsWith("/")) {
             orphansDirectory = orphansDirectory.substring(0,orphansDirectory.length()-1);
         }
-        work.start(topLevelDirectory,targetDirectory,orphansDirectory);
+        jobType = jobType.toLowerCase();
+        work.start(topLevelDirectory,targetDirectory,orphansDirectory,jobType);
     }
 
-    private void start(final String topLevelDirectory, final String targetDirectory, final String orphansDirectory) throws Exception {
+    private void start(final String topLevelDirectory, final String targetDirectory, final String orphansDirectory, final String jobType) throws Exception {
         File[] files = new File(topLevelDirectory).listFiles();
-        showFiles(files,topLevelDirectory,targetDirectory,orphansDirectory);
+        showFiles(files,topLevelDirectory,targetDirectory,orphansDirectory,jobType);
     }
 
-    private void showFiles(File[] files,String topLevelDirectory,String targetDirectory,String orphansDirectory) throws Exception {
+    private void showFiles(File[] files,String topLevelDirectory,String targetDirectory,String orphansDirectory,String jobType) throws Exception {
         List<String> topLevelParts = new ArrayList<>(Arrays.asList(topLevelDirectory.split("/")));
 //        System.out.println("topLevelSize = " + topLevelParts.size());
         for (File file : files) {
             if (file.isDirectory()) {
-                showFiles(file.listFiles(),topLevelDirectory,targetDirectory,orphansDirectory);
+                showFiles(file.listFiles(),topLevelDirectory,targetDirectory,orphansDirectory,jobType);
             } else {
+//                if(file.getAbsolutePath().contains("/modules/")) {
+//                    continue;
+//                }
                 if("config.xml".equalsIgnoreCase(file.getName())) {
 //                    System.out.println(file.getAbsolutePath());
                     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                     Document doc = dBuilder.parse(file);
                     doc.getDocumentElement().normalize();
+                    String fileJobType = doc.getDocumentElement().getNodeName();
                     List<String> actualParts = new ArrayList<>(Arrays.asList(file.getAbsolutePath().split("/")));
                     String jobName = actualParts.get(actualParts.size()-2);
                     System.out.println("jobName: " + jobName);
                     String[] fileSplit = file.getAbsolutePath().split(topLevelDirectory+"/jobs/");
-                    if("com.cloudbees.hudson.plugins.folder.Folder".equalsIgnoreCase(doc.getDocumentElement().getNodeName())) {
+                    if("com.cloudbees.hudson.plugins.folder.Folder".equalsIgnoreCase(fileJobType)) {
                         if(file.getAbsolutePath().equalsIgnoreCase(topLevelDirectory+"/config.xml")) {
                             String orphanFile = orphansDirectory + "/jobs/config.xml";
                             String orphanPath = orphanFile.substring(0,orphanFile.lastIndexOf("/"));
                             System.out.println("*********");
-                            System.out.println("type: " + doc.getDocumentElement().getNodeName());
+                            System.out.println("type: " + fileJobType);
                             System.out.println("from: " + file.getAbsolutePath());
                             System.out.println("  or: " + orphanFile);
                             System.out.println("*********");
@@ -67,7 +73,7 @@ public class Flattener {
                         String orphanFile = orphansDirectory + "/jobs/" + fileSplit[1];
                         String orphanPath = orphanFile.substring(0,orphanFile.lastIndexOf("/"));
                         System.out.println("*********");
-                        System.out.println("type: " + doc.getDocumentElement().getNodeName());
+                        System.out.println("type: " + fileJobType);
                         System.out.println("from: " + file.getAbsolutePath());
                         System.out.println("  or: " + orphanFile);
                         System.out.println("*********");
@@ -79,7 +85,7 @@ public class Flattener {
                         if(topLevelParts.size() + 3 == actualParts.size()) {
                             String specificTargetDirectory = targetDirectory + "";
                             System.out.println("*********");
-                            System.out.println("type: " + doc.getDocumentElement().getNodeName());
+                            System.out.println("type: " + fileJobType);
                             System.out.println("from: " + file.getAbsolutePath());
                             System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                             System.out.println("*********");
@@ -87,6 +93,9 @@ public class Flattener {
                             Files.copy(file.toPath(),(new File(specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
                         }
                     } else {
+                        if("p".equalsIgnoreCase(jobType) && !"flow-definition".equalsIgnoreCase(fileJobType)) {
+                            continue;
+                        }
 //                        System.out.println("postsplit: " + fileSplit[1]);
                         List<String> postsplitList = new ArrayList<>(Arrays.asList(fileSplit[1].split("/")));
                         String specificTargetDirectory = targetDirectory + "";
@@ -96,7 +105,7 @@ public class Flattener {
                             specificTargetDirectory = targetDirectory + "/jobs/" + postsplitList.get(0);
                         }
                         System.out.println("*********");
-                        System.out.println("type: " + doc.getDocumentElement().getNodeName());
+                        System.out.println("type: " + fileJobType);
                         System.out.println("from: " + file.getAbsolutePath());
                         System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                         System.out.println("*********");
@@ -106,7 +115,7 @@ public class Flattener {
                         } catch (java.nio.file.FileAlreadyExistsException e) {
                             specificTargetDirectory = orphansDirectory + "";
                             System.out.println("*********");
-                            System.out.println("type: " + doc.getDocumentElement().getNodeName());
+                            System.out.println("type: " + fileJobType);
                             System.out.println("from: " + file.getAbsolutePath());
                             System.out.println("fail: " + specificTargetDirectory + "/jobs/" + fileSplit[1]);
                             System.out.println("*********");
