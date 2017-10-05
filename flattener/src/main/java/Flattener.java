@@ -12,9 +12,10 @@ import java.util.List;
 public class Flattener {
     public static void main(final String... args) throws Exception {
         Flattener work = new Flattener();
-        String topLevelDirectory = args[0];
-        String targetDirectory = args[1];
-        String orphansDirectory = args[2];
+        int argIndex = 0;
+        String topLevelDirectory = args[argIndex++];
+        String targetDirectory = args[argIndex++];
+        String orphansDirectory = args[argIndex++];
         if(topLevelDirectory.endsWith("/")) {
             topLevelDirectory = topLevelDirectory.substring(0,topLevelDirectory.length()-1);
         }
