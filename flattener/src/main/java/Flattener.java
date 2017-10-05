@@ -52,12 +52,12 @@ public class Flattener {
 //                        System.out.println("actualPartsSize = " + actualParts.size());
                         if(topLevelParts.size() + 3 == actualParts.size()) {
                             String specificTargetDirectory = targetDirectory + "";
-//                            Files.copy(file.toPath(),(new File(specificTargetDirectory + file.getName())).toPath());
                             System.out.println("*********");
                             System.out.println("type: " + doc.getDocumentElement().getNodeName());
                             System.out.println("from: " + file.getAbsolutePath());
                             System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                             System.out.println("*********");
+                            Files.copy(file.toPath(),(new File(specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
                         }
                     } else {
                         String[] fileSplit = file.getAbsolutePath().split(topLevelDirectory+"/jobs/");
@@ -69,12 +69,12 @@ public class Flattener {
 //                            System.out.println("####  size = " + postsplitList.size() + "; 0 = " + postsplitList.get(0));
                             specificTargetDirectory = targetDirectory + "/jobs/" + postsplitList.get(0);
                         }
-//                        Files.copy(file.toPath(),(new File(specificTargetDirectory + file.getName())).toPath());
                         System.out.println("*********");
                         System.out.println("type: " + doc.getDocumentElement().getNodeName());
                         System.out.println("from: " + file.getAbsolutePath());
                         System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                         System.out.println("*********");
+                        Files.copy(file.toPath(),(new File(specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
                     }
                 }
             }
