@@ -3,6 +3,7 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +24,7 @@ public class Flattener {
 
     private void showFiles(File[] files,String topLevelDirectory,String targetDirectory) throws Exception {
         List<String> topLevelParts = new ArrayList<>(Arrays.asList(topLevelDirectory.split("/")));
-        System.out.println("topLevelSize = " + topLevelParts.size());
+//        System.out.println("topLevelSize = " + topLevelParts.size());
         for (File file : files) {
             if (file.isDirectory()) {
                 showFiles(file.listFiles(),topLevelDirectory,targetDirectory);
@@ -33,19 +34,23 @@ public class Flattener {
                         continue;
                     }
                     System.out.println(file.getAbsolutePath());
+                    System.out.println("parent: " + file.getParent());
+                    System.out.println("path: " + file.getPath());
                     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                     Document doc = dBuilder.parse(file);
                     doc.getDocumentElement().normalize();
+                    List<String> actualParts = new ArrayList<>(Arrays.asList(file.getAbsolutePath().split("/")));
                     if("com.cloudbees.hudson.plugins.folder.Folder".equalsIgnoreCase(doc.getDocumentElement().getNodeName())) {
                         // is this a top level folder?
-                        List<String> actualParts = new ArrayList<>(Arrays.asList(file.getAbsolutePath().split("/")));
-                        System.out.println("actualPartsSize = " + actualParts.size());
-
-
-
+//                        System.out.println("actualPartsSize = " + actualParts.size());
+                        if(topLevelParts.size() + 3 == actualParts.size()) {
+                            String specificTargetDirectory = targetDirectory + "";
+//                            Files.copy(file.toPath(),(new File(specificTargetDirectory + file.getName())).toPath());
+                        }
                     } else {
-                        //TODO: determine where to copy the file
+                        String specificTargetDirectory = targetDirectory + "";
+//                        Files.copy(file.toPath(),(new File(specificTargetDirectory + file.getName())).toPath());
                     }
                 }
             }
