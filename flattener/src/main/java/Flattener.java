@@ -94,11 +94,11 @@ public class Flattener {
                         }
                     } else {
                         if ("p".equalsIgnoreCase(jobType)) {
-                            if (!"flow-definition".equalsIgnoreCase(fileJobType)) {
+                            if (!"flow-definition".equalsIgnoreCase(fileJobType) && !"org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject".equalsIgnoreCase(fileJobType)) {
                                 continue;
                             }
                         } else {
-                            if ("flow-definition".equalsIgnoreCase(fileJobType)) {
+                            if ("flow-definition".equalsIgnoreCase(fileJobType) || "org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject".equalsIgnoreCase(fileJobType)) {
                                 continue;
                             }
                         }
