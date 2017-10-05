@@ -51,7 +51,7 @@ public class Flattener {
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                     Document doc = dBuilder.parse(file);
                     doc.getDocumentElement().normalize();
-                    String fileJobType = doc.getDocumentElement().getNodeName();
+                    String fileJobType = doc.getDocumentElement().getNodeName().trim();
                     List<String> actualParts = new ArrayList<>(Arrays.asList(file.getAbsolutePath().split("/")));
                     String jobName = actualParts.get(actualParts.size()-2);
                     System.out.println("jobName: " + jobName);
