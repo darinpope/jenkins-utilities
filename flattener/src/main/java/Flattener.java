@@ -18,11 +18,10 @@ public class Flattener {
     private void showFiles(File[] files,String targetDirectory) {
         for (File file : files) {
             if (file.isDirectory()) {
-                System.out.println("Directory: " + file.getName());
                 showFiles(file.listFiles(),targetDirectory);
             } else {
                 if("config.xml".equalsIgnoreCase(file.getName())) {
-                    System.out.println(file.getName());
+                    System.out.println(file.getAbsolutePath());
                 }
             }
         }
