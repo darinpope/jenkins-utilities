@@ -41,9 +41,6 @@ public class Flattener {
                 showFiles(file.listFiles(),topLevelDirectory,targetDirectory,orphansDirectory);
             } else {
                 if("config.xml".equalsIgnoreCase(file.getName())) {
-//                    if(file.getAbsolutePath().equalsIgnoreCase(topLevelDirectory+"/config.xml")) {
-//                        continue;
-//                    }
 //                    System.out.println(file.getAbsolutePath());
                     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -54,6 +51,18 @@ public class Flattener {
 //                    System.out.println("jobName: " + jobName);
                     String[] fileSplit = file.getAbsolutePath().split(topLevelDirectory+"/jobs/");
                     if("com.cloudbees.hudson.plugins.folder.Folder".equalsIgnoreCase(doc.getDocumentElement().getNodeName())) {
+                        if(file.getAbsolutePath().equalsIgnoreCase(topLevelDirectory+"/config.xml")) {
+                            String orphanFile = orphansDirectory + "/jobs/config.xml";
+                            String orphanPath = orphanFile.substring(0,orphanFile.lastIndexOf("/"));
+                            System.out.println("*********");
+                            System.out.println("type: " + doc.getDocumentElement().getNodeName());
+                            System.out.println("from: " + file.getAbsolutePath());
+                            System.out.println("  or: " + orphanFile);
+                            System.out.println("*********");
+                            Files.createDirectories(Paths.get(orphanPath));
+                            Files.copy(file.toPath(),(new File(orphanFile)).toPath());
+                            continue;
+                        }
                         // always create the folder in orphans
                         String orphanFile = orphansDirectory + "/jobs/" + fileSplit[1];
                         String orphanPath = orphanFile.substring(0,orphanFile.lastIndexOf("/"));
