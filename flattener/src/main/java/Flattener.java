@@ -57,6 +57,7 @@ public class Flattener {
                             System.out.println("from: " + file.getAbsolutePath());
                             System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                             System.out.println("*********");
+                            Files.createDirectory(new File(specificTargetDirectory + "/jobs/" + jobName).toPath());
                             Files.copy(file.toPath(),(new File(specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
                         }
                     } else {
@@ -74,6 +75,7 @@ public class Flattener {
                         System.out.println("from: " + file.getAbsolutePath());
                         System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                         System.out.println("*********");
+                        Files.createDirectory(new File(specificTargetDirectory + "/jobs/" + jobName).toPath());
                         Files.copy(file.toPath(),(new File(specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
                     }
                 }
