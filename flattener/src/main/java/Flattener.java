@@ -93,8 +93,14 @@ public class Flattener {
                             Files.copy(file.toPath(),(new File(specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
                         }
                     } else {
-                        if("p".equalsIgnoreCase(jobType) && !"flow-definition".equalsIgnoreCase(fileJobType)) {
-                            continue;
+                        if ("p".equalsIgnoreCase(jobType)) {
+                            if (!"flow-definition".equalsIgnoreCase(fileJobType)) {
+                                continue;
+                            }
+                        } else {
+                            if ("flow-definition".equalsIgnoreCase(fileJobType)) {
+                                continue;
+                            }
                         }
 //                        System.out.println("postsplit: " + fileSplit[1]);
                         List<String> postsplitList = new ArrayList<>(Arrays.asList(fileSplit[1].split("/")));
