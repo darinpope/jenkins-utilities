@@ -14,6 +14,12 @@ public class Flattener {
         int argIndex = 0;
         String topLevelDirectory = args[argIndex++];
         String targetDirectory = args[argIndex++];
+        if(topLevelDirectory.endsWith("/")) {
+            topLevelDirectory = topLevelDirectory.substring(0,topLevelDirectory.length()-1);
+        }
+        if(targetDirectory.endsWith("/")) {
+            targetDirectory = targetDirectory.substring(0,targetDirectory.length()-1);
+        }
         work.start(topLevelDirectory,targetDirectory);
     }
 
@@ -33,14 +39,14 @@ public class Flattener {
                     if(file.getAbsolutePath().equalsIgnoreCase(topLevelDirectory+"/config.xml")) {
                         continue;
                     }
-                    System.out.println(file.getAbsolutePath());
+//                    System.out.println(file.getAbsolutePath());
                     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                     Document doc = dBuilder.parse(file);
                     doc.getDocumentElement().normalize();
                     List<String> actualParts = new ArrayList<>(Arrays.asList(file.getAbsolutePath().split("/")));
                     String jobName = actualParts.get(actualParts.size()-2);
-                    System.out.println("jobName: " + jobName);
+//                    System.out.println("jobName: " + jobName);
                     if("com.cloudbees.hudson.plugins.folder.Folder".equalsIgnoreCase(doc.getDocumentElement().getNodeName())) {
                         // is this a top level folder?
 //                        System.out.println("actualPartsSize = " + actualParts.size());
@@ -55,12 +61,12 @@ public class Flattener {
                         }
                     } else {
                         String[] fileSplit = file.getAbsolutePath().split(topLevelDirectory+"/jobs/");
-                        System.out.println("postsplit: " + fileSplit[1]);
+//                        System.out.println("postsplit: " + fileSplit[1]);
                         List<String> postsplitList = new ArrayList<>(Arrays.asList(fileSplit[1].split("/")));
                         String specificTargetDirectory = targetDirectory + "";
                         if(postsplitList.size() >= 4) {
                             //need to flatten
-                            System.out.print("####  size = " + postsplitList.size() + "; 0 = " + postsplitList.get(0));
+//                            System.out.println("####  size = " + postsplitList.size() + "; 0 = " + postsplitList.get(0));
                             specificTargetDirectory = targetDirectory + "/" + postsplitList.get(0);
                         }
 //                        Files.copy(file.toPath(),(new File(specificTargetDirectory + file.getName())).toPath());
