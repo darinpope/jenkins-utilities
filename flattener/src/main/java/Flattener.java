@@ -42,9 +42,9 @@ public class Flattener {
             if (file.isDirectory()) {
                 showFiles(file.listFiles(),topLevelDirectory,targetDirectory,orphansDirectory,jobType);
             } else {
-//                if(file.getAbsolutePath().contains("/modules/")) {
-//                    continue;
-//                }
+                if(file.getAbsolutePath().contains("/modules/")) {
+                    continue;
+                }
                 if("config.xml".equalsIgnoreCase(file.getName())) {
 //                    System.out.println(file.getAbsolutePath());
                     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
