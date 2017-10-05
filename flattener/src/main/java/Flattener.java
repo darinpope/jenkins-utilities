@@ -39,7 +39,7 @@ public class Flattener {
                     Document doc = dBuilder.parse(file);
                     doc.getDocumentElement().normalize();
                     List<String> actualParts = new ArrayList<>(Arrays.asList(file.getAbsolutePath().split("/")));
-                    String jobName = actualParts.get(actualParts.size()-1);
+                    String jobName = actualParts.get(actualParts.size()-2);
                     System.out.println("jobName: " + jobName);
                     if("com.cloudbees.hudson.plugins.folder.Folder".equalsIgnoreCase(doc.getDocumentElement().getNodeName())) {
                         // is this a top level folder?
