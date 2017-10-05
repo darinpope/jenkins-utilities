@@ -3,6 +3,9 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Flattener {
     public static void main(final String... args) throws Exception {
@@ -14,12 +17,13 @@ public class Flattener {
     }
 
     private void start(final String topLevelDirectory, final String targetDirectory) throws Exception {
-        System.out.println(topLevelDirectory);
         File[] files = new File(topLevelDirectory).listFiles();
         showFiles(files,topLevelDirectory,targetDirectory);
     }
 
     private void showFiles(File[] files,String topLevelDirectory,String targetDirectory) throws Exception {
+        List<String> topLevelParts = new ArrayList<>(Arrays.asList(topLevelDirectory.split("/")));
+        System.out.println("topLevelSize = " + topLevelParts.size());
         for (File file : files) {
             if (file.isDirectory()) {
                 showFiles(file.listFiles(),topLevelDirectory,targetDirectory);
@@ -33,7 +37,16 @@ public class Flattener {
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                     Document doc = dBuilder.parse(file);
                     doc.getDocumentElement().normalize();
-                    System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+                    if("com.cloudbees.hudson.plugins.folder.Folder".equalsIgnoreCase(doc.getDocumentElement().getNodeName())) {
+                        // is this a top level folder?
+                        List<String> actualParts = new ArrayList<>(Arrays.asList(file.getAbsolutePath().split("/")));
+                        System.out.println("actualPartsSize = " + actualParts.size());
+
+
+
+                    } else {
+                        //TODO: determine where to copy the file
+                    }
                 }
             }
         }
