@@ -48,6 +48,7 @@ public class Flattener {
                             String specificTargetDirectory = targetDirectory + "";
 //                            Files.copy(file.toPath(),(new File(specificTargetDirectory + file.getName())).toPath());
                             System.out.println("*********");
+                            System.out.println("type: " + doc.getDocumentElement().getNodeName());
                             System.out.println("from: " + file.getAbsolutePath());
                             System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                             System.out.println("*********");
@@ -58,6 +59,7 @@ public class Flattener {
                         String specificTargetDirectory = targetDirectory + "";
 //                        Files.copy(file.toPath(),(new File(specificTargetDirectory + file.getName())).toPath());
                         System.out.println("*********");
+                        System.out.println("type: " + doc.getDocumentElement().getNodeName());
                         System.out.println("from: " + file.getAbsolutePath());
                         System.out.println("  to: " + targetDirectory + "/jobs/" + jobName + "/" +file.getName());
                         System.out.println("*********");
