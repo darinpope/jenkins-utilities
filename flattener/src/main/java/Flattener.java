@@ -58,7 +58,7 @@ public class Flattener {
                         System.out.println("postsplit: " + fileSplit[1]);
                         List<String> postsplitList = new ArrayList<>(Arrays.asList(fileSplit[1].split("/")));
                         String specificTargetDirectory = targetDirectory + "";
-                        if(postsplitList.size() > 4) {
+                        if(postsplitList.size() >= 4) {
                             //need to flatten
                             System.out.print("####  size = " + postsplitList.size() + "; 0 = " + postsplitList.get(0));
                             specificTargetDirectory = targetDirectory + "/" + postsplitList.get(0);
