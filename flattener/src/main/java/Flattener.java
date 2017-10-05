@@ -1,3 +1,7 @@
+import org.w3c.dom.Document;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 
 public class Flattener {
@@ -15,13 +19,18 @@ public class Flattener {
         showFiles(files,targetDirectory);
     }
 
-    private void showFiles(File[] files,String targetDirectory) {
+    private void showFiles(File[] files,String targetDirectory) throws Exception {
         for (File file : files) {
             if (file.isDirectory()) {
                 showFiles(file.listFiles(),targetDirectory);
             } else {
                 if("config.xml".equalsIgnoreCase(file.getName())) {
                     System.out.println(file.getAbsolutePath());
+                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                    Document doc = dBuilder.parse(file);
+                    doc.getDocumentElement().normalize();
+                    System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
                 }
             }
         }
