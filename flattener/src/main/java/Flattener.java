@@ -99,8 +99,10 @@ public class Flattener {
                             System.out.println("from: " + file.getAbsolutePath());
                             System.out.println("fail: " + specificTargetDirectory + "/jobs/" + fileSplit[1]);
                             System.out.println("*********");
-                            Files.createDirectories(Paths.get(specificTargetDirectory + "/jobs/" + jobName));
-                            Files.copy(file.toPath(), (new File(specificTargetDirectory + "/jobs/" + fileSplit[1])).toPath());
+                            String orphanFileName = specificTargetDirectory + "/jobs/" + fileSplit[1];
+                            String orphanPath = orphanFileName.substring(0,orphanFileName.lastIndexOf("/"));
+                            Files.createDirectories(Paths.get(orphanPath));
+                            Files.copy(file.toPath(), (new File(orphanFileName)).toPath());
                         }
                     }
                 }
