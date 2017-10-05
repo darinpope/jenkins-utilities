@@ -47,10 +47,18 @@ public class Flattener {
                         if(topLevelParts.size() + 3 == actualParts.size()) {
                             String specificTargetDirectory = targetDirectory + "";
 //                            Files.copy(file.toPath(),(new File(specificTargetDirectory + file.getName())).toPath());
+                            System.out.println("*********");
+                            System.out.println("from: " + file.getAbsolutePath());
+                            System.out.println("  to: " + specificTargetDirectory + jobName + "/" +file.getName());
+                            System.out.println("*********");
                         }
                     } else {
                         String specificTargetDirectory = targetDirectory + "";
 //                        Files.copy(file.toPath(),(new File(specificTargetDirectory + file.getName())).toPath());
+                        System.out.println("*********");
+                        System.out.println("from: " + file.getAbsolutePath());
+                        System.out.println("  to: " + specificTargetDirectory + jobName + "/" +file.getName());
+                        System.out.println("*********");
                     }
                 }
             }
