@@ -48,7 +48,7 @@ public class Flattener {
                     doc.getDocumentElement().normalize();
                     List<String> actualParts = new ArrayList<>(Arrays.asList(file.getAbsolutePath().split("/")));
                     String jobName = actualParts.get(actualParts.size()-2);
-//                    System.out.println("jobName: " + jobName);
+                    System.out.println("jobName: " + jobName);
                     String[] fileSplit = file.getAbsolutePath().split(topLevelDirectory+"/jobs/");
                     if("com.cloudbees.hudson.plugins.folder.Folder".equalsIgnoreCase(doc.getDocumentElement().getNodeName())) {
                         if(file.getAbsolutePath().equalsIgnoreCase(topLevelDirectory+"/config.xml")) {
