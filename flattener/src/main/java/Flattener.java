@@ -16,15 +16,18 @@ public class Flattener {
     private void start(final String topLevelDirectory, final String targetDirectory) throws Exception {
         System.out.println(topLevelDirectory);
         File[] files = new File(topLevelDirectory).listFiles();
-        showFiles(files,targetDirectory);
+        showFiles(files,topLevelDirectory,targetDirectory);
     }
 
-    private void showFiles(File[] files,String targetDirectory) throws Exception {
+    private void showFiles(File[] files,String topLevelDirectory,String targetDirectory) throws Exception {
         for (File file : files) {
             if (file.isDirectory()) {
-                showFiles(file.listFiles(),targetDirectory);
+                showFiles(file.listFiles(),topLevelDirectory,targetDirectory);
             } else {
                 if("config.xml".equalsIgnoreCase(file.getName())) {
+                    if(file.getAbsolutePath().equalsIgnoreCase(topLevelDirectory+"/config.xml")) {
+                        continue;
+                    }
                     System.out.println(file.getAbsolutePath());
                     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
