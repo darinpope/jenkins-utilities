@@ -59,8 +59,8 @@ public class Flattener {
                         System.out.println("from: " + file.getAbsolutePath());
                         System.out.println("  or: " + orphansDirectory + "/jobs/" + jobName + "/" +file.getName());
                         System.out.println("*********");
-//                        Files.createDirectories(Paths.get(specificTargetDirectory + "/jobs/" + jobName));
-//                        Files.copy(file.toPath(),(new File(specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
+                        Files.createDirectories(Paths.get(orphansDirectory + "/jobs/" + jobName));
+                        Files.copy(file.toPath(),(new File(orphansDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
 
                         // is this a top level folder?
 //                        System.out.println("actualPartsSize = " + actualParts.size());
@@ -97,7 +97,7 @@ public class Flattener {
                             System.out.println("*********");
                             System.out.println("type: " + doc.getDocumentElement().getNodeName());
                             System.out.println("from: " + file.getAbsolutePath());
-                            System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
+                            System.out.println("fail: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                             System.out.println("*********");
                         }
                     }
