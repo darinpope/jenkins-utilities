@@ -4,6 +4,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,7 +58,7 @@ public class Flattener {
                             System.out.println("from: " + file.getAbsolutePath());
                             System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                             System.out.println("*********");
-                            Files.createDirectory(new File(specificTargetDirectory + "/jobs/" + jobName).toPath());
+                            Files.createDirectories(Paths.get(specificTargetDirectory + "/jobs/" + jobName));
                             Files.copy(file.toPath(),(new File(specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
                         }
                     } else {
@@ -75,7 +76,7 @@ public class Flattener {
                         System.out.println("from: " + file.getAbsolutePath());
                         System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                         System.out.println("*********");
-                        Files.createDirectory(new File(specificTargetDirectory + "/jobs/" + jobName).toPath());
+                        Files.createDirectories(Paths.get(specificTargetDirectory + "/jobs/" + jobName));
                         Files.copy(file.toPath(),(new File(specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
                     }
                 }
