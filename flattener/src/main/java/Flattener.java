@@ -89,8 +89,8 @@ public class Flattener {
                         System.out.println("from: " + file.getAbsolutePath());
                         System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                         System.out.println("*********");
-                        Files.createDirectories(Paths.get(specificTargetDirectory + "/jobs/" + jobName));
                         try {
+                            Files.createDirectories(Paths.get(specificTargetDirectory + "/jobs/" + jobName));
                             Files.copy(file.toPath(), (new File(specificTargetDirectory + "/jobs/" + jobName + "/" + file.getName())).toPath());
                         } catch (java.nio.file.FileAlreadyExistsException e) {
                             specificTargetDirectory = orphansDirectory + "";
@@ -99,6 +99,7 @@ public class Flattener {
                             System.out.println("from: " + file.getAbsolutePath());
                             System.out.println("fail: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
                             System.out.println("*********");
+                            Files.createDirectories(Paths.get(specificTargetDirectory + "/jobs/" + jobName));
                             Files.copy(file.toPath(), (new File(specificTargetDirectory + "/jobs/" + jobName + "/" + file.getName())).toPath());
                         }
                     }
