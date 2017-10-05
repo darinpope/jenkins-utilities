@@ -53,11 +53,13 @@ public class Flattener {
                             System.out.println("*********");
                         }
                     } else {
+                        String[] fileSplit = file.getAbsolutePath().split(topLevelDirectory);
+                        System.out.println("postsplit: " + fileSplit[1]);
                         String specificTargetDirectory = targetDirectory + "";
 //                        Files.copy(file.toPath(),(new File(specificTargetDirectory + file.getName())).toPath());
                         System.out.println("*********");
                         System.out.println("from: " + file.getAbsolutePath());
-                        System.out.println("  to: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
+                        System.out.println("  to: " + targetDirectory + "/jobs/" + jobName + "/" +file.getName());
                         System.out.println("*********");
                     }
                 }
