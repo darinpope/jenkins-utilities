@@ -97,10 +97,10 @@ public class Flattener {
                             System.out.println("*********");
                             System.out.println("type: " + doc.getDocumentElement().getNodeName());
                             System.out.println("from: " + file.getAbsolutePath());
-                            System.out.println("fail: " + specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName());
+                            System.out.println("fail: " + specificTargetDirectory + "/jobs/" + fileSplit[1]);
                             System.out.println("*********");
                             Files.createDirectories(Paths.get(specificTargetDirectory + "/jobs/" + jobName));
-                            Files.copy(file.toPath(), (new File(specificTargetDirectory + "/jobs/" + jobName + "/" + file.getName())).toPath());
+                            Files.copy(file.toPath(), (new File(specificTargetDirectory + "/jobs/" + fileSplit[1])).toPath());
                         }
                     }
                 }
