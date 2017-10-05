@@ -52,15 +52,19 @@ public class Flattener {
                     List<String> actualParts = new ArrayList<>(Arrays.asList(file.getAbsolutePath().split("/")));
                     String jobName = actualParts.get(actualParts.size()-2);
 //                    System.out.println("jobName: " + jobName);
+                    String[] fileSplit = file.getAbsolutePath().split(topLevelDirectory+"/jobs/");
+                    List<String> postsplitList = new ArrayList<>(Arrays.asList(fileSplit[1].split("/")));
                     if("com.cloudbees.hudson.plugins.folder.Folder".equalsIgnoreCase(doc.getDocumentElement().getNodeName())) {
                         // always create the folder in orphans
+                        String orphanPath = fileSplit[0].substring(0,fileSplit[0].lastIndexOf("/"));
+                        String orphanFile = orphansDirectory + "/jobs/" + fileSplit[0];
                         System.out.println("*********");
                         System.out.println("type: " + doc.getDocumentElement().getNodeName());
                         System.out.println("from: " + file.getAbsolutePath());
-                        System.out.println("  or: " + orphansDirectory + "/jobs/" + jobName + "/" +file.getName());
+                        System.out.println("  or: " + orphanFile);
                         System.out.println("*********");
-                        Files.createDirectories(Paths.get(orphansDirectory + "/jobs/" + jobName));
-                        Files.copy(file.toPath(),(new File(orphansDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
+                        Files.createDirectories(Paths.get(orphanPath));
+                        Files.copy(file.toPath(),(new File(orphanFile)).toPath());
 
                         // is this a top level folder?
 //                        System.out.println("actualPartsSize = " + actualParts.size());
@@ -75,9 +79,7 @@ public class Flattener {
                             Files.copy(file.toPath(),(new File(specificTargetDirectory + "/jobs/" + jobName + "/" +file.getName())).toPath());
                         }
                     } else {
-                        String[] fileSplit = file.getAbsolutePath().split(topLevelDirectory+"/jobs/");
 //                        System.out.println("postsplit: " + fileSplit[1]);
-                        List<String> postsplitList = new ArrayList<>(Arrays.asList(fileSplit[1].split("/")));
                         String specificTargetDirectory = targetDirectory + "";
                         if(postsplitList.size() >= 4) {
                             //need to flatten
