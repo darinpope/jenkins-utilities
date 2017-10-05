@@ -41,9 +41,9 @@ public class Flattener {
                 showFiles(file.listFiles(),topLevelDirectory,targetDirectory,orphansDirectory);
             } else {
                 if("config.xml".equalsIgnoreCase(file.getName())) {
-                    if(file.getAbsolutePath().equalsIgnoreCase(topLevelDirectory+"/config.xml")) {
-                        continue;
-                    }
+//                    if(file.getAbsolutePath().equalsIgnoreCase(topLevelDirectory+"/config.xml")) {
+//                        continue;
+//                    }
 //                    System.out.println(file.getAbsolutePath());
                     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
